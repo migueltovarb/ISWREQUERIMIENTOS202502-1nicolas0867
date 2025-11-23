@@ -1,0 +1,43 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-8">
+        <div class="card">
+            <div class="card-header bg-primary text-white">
+                <h3>Validación de Ingreso</h3>
+            </div>
+            <div class="card-body">
+                <form method="post" class="row g-3 mb-4">
+                    {% csrf_token %}
+                    <div class="col-auto">
+                        <label for="placa" class="visually-hidden">Placa</label>
+                        <input type="text" class="form-control" id="placa" name="placa" placeholder="Ingrese Placa"
+                            required>
+                    </div>
+                    <div class="col-auto">
+                        <button type="submit" class="btn btn-primary mb-3">Buscar Reserva</button>
+                    </div>
+                </form>
+
+                {% if reserva %}
+                <div class="alert alert-success">
+                    <h4>Reserva Encontrada</h4>
+                    <p><strong>Placa:</strong> {{ reserva.placa }}</p>
+                    <p><strong>Espacio:</strong> {{ reserva.espacio.numero }} ({{ reserva.espacio.tipo }})</p>
+                    <p><strong>Horario:</strong> {{ reserva.hora_inicio }} - {{ reserva.hora_fin }}</p>
+                    <p><strong>Usuario:</strong> {{ reserva.usuario.username }}</p>
+
+                    <a href="{% url 'core:registrar_entrada' reserva.id %}"
+                        class="btn btn-success btn-lg w-100">Registrar Entrada</a>
+                </div>
+                {% elif mensaje %}
+                <div class="alert alert-warning">
+                    {{ mensaje }}
+                </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

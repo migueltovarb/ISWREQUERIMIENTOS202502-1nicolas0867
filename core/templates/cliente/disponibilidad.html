@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h2 class="mb-4">Disponibilidad de Parqueadero</h2>
+
+<div class="row">
+    {% for espacio in espacios %}
+    <div class="col-md-3 mb-3">
+        <div
+            class="card h-100 text-center {% if espacio.estado == 'LIBRE' %}border-success{% elif espacio.estado == 'OCUPADO' %}border-danger{% else %}border-warning{% endif %}">
+            <div class="card-body">
+                <h5 class="card-title">Espacio {{ espacio.numero }}</h5>
+                <p class="card-text">
+                    <span
+                        class="badge {% if espacio.estado == 'LIBRE' %}bg-success{% elif espacio.estado == 'OCUPADO' %}bg-danger{% else %}bg-warning{% endif %}">
+                        {{ espacio.estado }}
+                    </span>
+                    <br>
+                    <small class="text-muted">{{ espacio.tipo }}</small>
+                </p>
+                {% if espacio.estado == 'LIBRE' %}
+                <a href="{% url 'core:crear_reserva' %}?espacio_id={{ espacio.id }}"
+                    class="btn btn-sm btn-outline-success">Reservar</a>
+                {% else %}
+                <button class="btn btn-sm btn-secondary" disabled>No Disponible</button>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+{% endblock %}

@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h2>Mis Vehículos</h2>
+    <a href="{% url 'core:agregar_vehiculo' %}" class="btn btn-primary">Agregar Vehículo</a>
+</div>
+
+{% if vehiculos %}
+<div class="row">
+    {% for vehiculo in vehiculos %}
+    <div class="col-md-4 mb-3">
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">{{ vehiculo.placa }}</h5>
+                <h6 class="card-subtitle mb-2 text-muted">{{ vehiculo.tipo }}</h6>
+                <p class="card-text">{{ vehiculo.descripcion|default:"Sin descripción" }}</p>
+                <a href="{% url 'core:eliminar_vehiculo' vehiculo.id %}" class="btn btn-sm btn-danger"
+                    onclick="return confirm('¿Eliminar este vehículo?');">Eliminar</a>
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+{% else %}
+<div class="alert alert-info">No tienes vehículos registrados.</div>
+{% endif %}
+{% endblock %}
