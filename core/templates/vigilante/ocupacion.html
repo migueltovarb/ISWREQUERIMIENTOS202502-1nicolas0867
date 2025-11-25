@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h2 class="mb-4">Ocupación Actual del Parqueadero</h2>
+
+<div class="row">
+    {% for espacio in espacios %}
+    <div class="col-md-2 mb-3">
+        <div
+            class="card text-center text-white {% if espacio.estado == 'LIBRE' %}bg-success{% elif espacio.estado == 'OCUPADO' %}bg-danger{% elif espacio.estado == 'RESERVADO' %}bg-warning text-dark{% else %}bg-secondary{% endif %}">
+            <div class="card-body p-2">
+                <h5 class="card-title m-0">{{ espacio.numero }}</h5>
+                <small>{{ espacio.tipo }}</small>
+                <div class="mt-1 fw-bold">{{ espacio.estado }}</div>
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+{% endblock %}

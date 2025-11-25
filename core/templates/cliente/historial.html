@@ -1,0 +1,53 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h2 class="mb-4">Historial de Reservas</h2>
+
+<div class="table-responsive">
+    <table class="table table-hover">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Espacio</th>
+                <th>Fecha</th>
+                <th>Horario</th>
+                <th>Placa</th>
+                <th>Estado</th>
+                <th>Entrada/Salida</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for reserva in reservas %}
+            <tr>
+                <td>{{ reserva.id }}</td>
+                <td>{{ reserva.espacio.numero }}</td>
+                <td>{{ reserva.fecha }}</td>
+                <td>{{ reserva.hora_inicio }} - {{ reserva.hora_fin }}</td>
+                <td>{{ reserva.placa }}</td>
+                <td>
+                    {% if reserva.estado == 'COMPLETADA' %}
+                    <span class="badge bg-success">{{ reserva.estado }}</span>
+                    {% elif reserva.estado == 'CANCELADA' %}
+                    <span class="badge bg-secondary">{{ reserva.estado }}</span>
+                    {% else %}
+                    <span class="badge bg-info">{{ reserva.estado }}</span>
+                    {% endif %}
+                </td>
+                <td>
+                    {% if reserva.hora_entrada %}
+                    {{ reserva.hora_entrada }}
+                    {% if reserva.hora_salida %} - {{ reserva.hora_salida }}{% endif %}
+                    {% else %}
+                    -
+                    {% endif %}
+                </td>
+            </tr>
+            {% empty %}
+            <tr>
+                <td colspan="7" class="text-center">No hay historial disponible.</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

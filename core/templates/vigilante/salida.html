@@ -1,0 +1,37 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h2 class="mb-4">Vehículos en Parqueadero (Salidas Pendientes)</h2>
+
+<div class="table-responsive">
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Espacio</th>
+                <th>Placa</th>
+                <th>Hora Entrada</th>
+                <th>Hora Fin Reserva</th>
+                <th>Acción</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for reserva in reservas %}
+            <tr>
+                <td>{{ reserva.espacio.numero }}</td>
+                <td>{{ reserva.placa }}</td>
+                <td>{{ reserva.hora_entrada }}</td>
+                <td>{{ reserva.hora_fin }}</td>
+                <td>
+                    <a href="{% url 'core:registrar_salida' reserva.id %}" class="btn btn-warning btn-sm"
+                        onclick="return confirm('¿Confirmar salida del vehículo?');">Registrar Salida</a>
+                </td>
+            </tr>
+            {% empty %}
+            <tr>
+                <td colspan="5" class="text-center">No hay vehículos registrados para salida.</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

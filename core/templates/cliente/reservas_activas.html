@@ -1,0 +1,40 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h2 class="mb-4">Mis Reservas Activas</h2>
+
+{% if reservas %}
+<div class="table-responsive">
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Espacio</th>
+                <th>Fecha</th>
+                <th>Hora</th>
+                <th>Placa</th>
+                <th>Estado</th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for reserva in reservas %}
+            <tr>
+                <td>{{ reserva.espacio.numero }} ({{ reserva.espacio.tipo }})</td>
+                <td>{{ reserva.fecha }}</td>
+                <td>{{ reserva.hora_inicio }} - {{ reserva.hora_fin }}</td>
+                <td>{{ reserva.placa }}</td>
+                <td><span class="badge bg-primary">{{ reserva.estado }}</span></td>
+                <td>
+                    <a href="{% url 'core:cancelar_reserva' reserva.id %}" class="btn btn-sm btn-danger"
+                        onclick="return confirm('¿Está seguro de cancelar esta reserva?');">Cancelar</a>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% else %}
+<div class="alert alert-info">No tienes reservas activas.</div>
+<a href="{% url 'core:disponibilidad' %}" class="btn btn-primary">Nueva Reserva</a>
+{% endif %}
+{% endblock %}
